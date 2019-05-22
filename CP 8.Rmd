@@ -13,7 +13,7 @@ library(rgdal)
 library(rasterVis)
 library(maps)
 library(rgeos)
-library(dplyr)
+library(tidyverse)
 library(RColorBrewer)
 
 
@@ -30,4 +30,40 @@ all_threats <- raster("full_modelnv.tif")
 ```
 
 Notes from class 
+
+```{r}
+
+#Creating plots to visualize data
+
+plot(all_threats,col=cols)
+
+# add a landmap to your shapefile. the add=T argument tells R to add it to the existing plot.
+# make sure you understand what the other arguments do
+plot(all_threats,ext=extent(-130,-110,24,50),col=cols)
+map('world',fill=T,add=T,col='gray')
+
+
+
+plot(all_threats,col=cols,ext=extent(-121,-117,32,35),main="Cumulative Threats") # A good extent for the Santa Barbara Channel
+map('world',fill=T,add=T,col='gray')
+
+# Creating a histogram to look at value distribution
+
+hist(all_threats,main="Cumulative Threats Frequency")
+
+# Using cellStates to present summary statistics, in this case: mean, sd.
+
+cellStats(all_threats,mean)
+cellStats(all_threats,sd)
+
+
+```
+
+```{r}
+
+all_spp <- raster("ca_curr_sp_rich.tif")
+
+```
+
+
 
