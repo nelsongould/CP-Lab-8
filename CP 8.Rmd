@@ -90,15 +90,24 @@ Also can use "zoom function" to activate a locator, and clicking around will zoo
 
 Histogram
 Can find frequency of threats using "hist", will only use a subset of the cells since the raster is so huge
+-this will help later with reclassifying the data 
 Other stats using "cellstats"
 
 
 Raster Calculations:
 -need to overlay more data
 Steps:
--import new data (Species Richness)
--resample to the same resolution
--reclassify to find the top 20% for both 
--overlay 
+1. import new data (Species Richness)
+2. resample to the same extent resolution
+- use the "crop" and "resample"
+-crop is pretty straightforward, as you can tell it which layer to crop to
+-resample: what layer you are resampling, the one you want to sample it TO, plus the method, which specifies the mathematical way to calculate the new size
+-(ngb is nearest neighbor algorithm)
+-after, use stack to see if they layers line up: super useful 
+
+3. reclassify to find the top 20% for both 
+4. overlay 
+
+
 
 
