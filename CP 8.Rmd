@@ -38,5 +38,12 @@ all_threats <- raster("full_modelnv.tif")
 
 ```
 
-Notes from class 
+####Notes from class 
+
+General 
+raster comes with simple basemaps in "map" function
+
+Plotting 
+Extent argument allows you to zoom into a region, the numbers after refer to lat and long (or whatever spatial reference units your data is in) 
+
 
