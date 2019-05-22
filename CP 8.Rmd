@@ -38,13 +38,6 @@ all_threats <- raster("full_modelnv.tif")
 
 ```
 
-####Notes from class 
-
-General 
-raster comes with simple basemaps in "map" function
-
-Plotting 
-Extent argument allows you to zoom into a region, the numbers after refer to lat and long (or whatever spatial reference units your data is in) 
 
 
 ```{r}
@@ -81,5 +74,31 @@ all_spp <- raster("ca_curr_sp_rich.tif")
 
 ```
 
+####Notes from class 
+
+General 
+raster comes with simple basemaps in "map" function
+typing the raster name into the console will return information: where do we put it?
+-dimensions tell you have any rows, columnns and cells in your raster (giant matrix)
+-resolution: the resolution of each of the individual pixels
+-extent: the lat long bounds 
+
+Plotting 
+Extent argument allows you to zoom into a region, the numbers after refer to lat and long (or whatever spatial reference units your data is in) 
+Can change it to zoom in on certain areas (use the plot axis to estimate it)
+Also can use "zoom function" to activate a locator, and clicking around will zoom to those areas 
+
+Histogram
+Can find frequency of threats using "hist", will only use a subset of the cells since the raster is so huge
+Other stats using "cellstats"
+
+
+Raster Calculations:
+-need to overlay more data
+Steps:
+-import new data (Species Richness)
+-resample to the same resolution
+-reclassify to find the top 20% for both 
+-overlay 
 
 
