@@ -16,6 +16,15 @@ library(rgeos)
 library(tidyverse)
 library(RColorBrewer)
 
+# view some color palettes
+# display.brewer.all()
+# rainbow color scheme
+cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) 
+
+#setting smaller margins for plotting
+par(mar=c(2,2,1,1))
+
+
 
 # view some color palettes
 # display.brewer.all()
@@ -29,7 +38,14 @@ all_threats <- raster("full_modelnv.tif")
 
 ```
 
-Notes from class 
+####Notes from class 
+
+General 
+raster comes with simple basemaps in "map" function
+
+Plotting 
+Extent argument allows you to zoom into a region, the numbers after refer to lat and long (or whatever spatial reference units your data is in) 
+
 
 ```{r}
 
