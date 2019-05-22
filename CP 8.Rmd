@@ -17,6 +17,16 @@ library(dplyr)
 library(RColorBrewer)
 
 
+# view some color palettes
+# display.brewer.all()
+# rainbow color scheme
+cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) 
+
+#setting smaller margins for plotting
+par(mar=c(2,2,1,1))
+
+all_threats <- raster("full_modelnv.tif")
+
 ```
 
 Notes from class 
