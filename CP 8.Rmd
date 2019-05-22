@@ -72,6 +72,27 @@ cellStats(all_threats,sd)
 
 all_spp <- raster("ca_curr_sp_rich.tif")
 
+plot(all_spp, col=cols)
+
+
+
+#?crop see what the crop function does
+
+threats_crop <- crop(all_threats,all_spp) #Crop the threats layer to the same extent at species
+
+#?resample see what the resample function does
+# NOTE: the progress='text' argument is a great tool: it prints out the progress
+# of a longer-running function into the console, so you can see how the operation is going
+
+# the method='ngb' argument specifies that we want to use a nearest neighbor algorithm to resample, instead of interpolation
+spp_res <- resample(all_spp,threats_crop,method='ngb',progress='text')
+
+# We now want to "stack" the two raster files
+
+spp_threat_stack <- stack(threats_crop,spp_res)
+plot(spp_threat_stack,col=cols)
+
+
 ```
 
 ####Notes from class 
