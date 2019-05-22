@@ -1,0 +1,23 @@
+---
+title: "Lab 8"
+author: "Madeline Berger"
+date: "5/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(raster)
+library(rgdal)
+library(rasterVis)
+library(maps)
+library(rgeos)
+library(dplyr)
+library(RColorBrewer)
+
+
+```
+
+Notes from class 
+
