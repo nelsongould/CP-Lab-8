@@ -93,6 +93,8 @@ spp_threat_stack <- stack(threats_crop,spp_res)
 plot(spp_threat_stack,col=cols)
 
 
+
+
 ```
 
 ####Notes from class 
@@ -121,5 +123,13 @@ Steps:
 -resample to the same resolution
 -reclassify to find the top 20% for both 
 -overlay 
+
+####Notes from class 2 - Nelson typist
+
+Begin by reclassifying the data to only show the top 20% of cells in each layer. Then, we want to combine both layers into one to only contain "hotspots"
+-Need to reclassify 0's to NA's
+-Then calculate the 80th percentile and max of the data using the "quantile" and "cellStats" functions, respectively
+-Use these values for both the species data and env threat layers to create layers of binary high threat/species presence
+
 
 
