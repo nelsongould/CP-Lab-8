@@ -9,5 +9,39 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+
+library(raster)
+library(rgdal)
+library(rasterVis)
+library(maps)
+library(rgeos)
+library(tidyverse)
+library(RColorBrewer)
+
+# view some color palettes
+# display.brewer.all()
+# rainbow color scheme
+cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) 
+
+#setting smaller margins for plotting
+par(mar=c(2,2,1,1))
+
+
+```
+
+```{r}
+
+all_spp <- raster("ca_curr_sp_rich.tif")
+trash <- raster("impact_trash")
+pollution <- raster("impact_pollution")
+shipping <- raster("impact_shipping")
+pens <- raster("impact_pens")
+
+
+
+
+```
+
 
 
