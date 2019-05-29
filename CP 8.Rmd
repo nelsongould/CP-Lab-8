@@ -68,6 +68,7 @@ cellStats(all_threats,sd)
 
 ```
 
+#Resample
 ```{r}
 
 all_spp <- raster("ca_curr_sp_rich.tif")
@@ -97,6 +98,78 @@ plot(spp_threat_stack,col=cols)
 
 ```
 
+#Reclassify 
+```{r}
+
+hist(spp_res, main = "Species Raster Value")
+
+#reclassify a group of raster values to another value, in this case the zeros should be come NBA 
+#rcl = three values, the lower and upper values of the range and then the new value that range should take
+
+spp_res <- reclassify(spp_res, rcl = c(-Inf, 0, NA))
+hist(spp_res, main = "Species Raster Values, Zeroes Removed")
+
+
+#now need to just find the top 20% of the species data, assgining those to 1 and all the other non-NA cells a value of zero. 
+
+#first find value of of the 80th percentile 
+spp_cutoff <- quantile(spp_res, 0.8)
+spp_maxVal <- cellStats(spp_res, max) #this finds the maximum
+
+#then use create the matrix to feed into the reclassify function
+rcl_mat <- c(-Inf, spp_cutoff,0,
+             spp_cutoff, spp_maxVal,1)
+
+#Reclassify the species layer
+spp_binary <- reclassify(spp_res, rcl = rcl_mat)
+
+#Plot to make sure it looks right 
+
+binary_cols <- c("white","firebrick")
+plot(spp_binary, col = binary_cols, legend = F, main = "Top 20% of Species Richness")
+map('world', fill = T, add = Tcol = 'gray')
+
+
+
+#Reclassify the threats layer
+threats_cutoff <- quantile(threats_crop, 0.8)
+threats_maxVal <- cellStats(threats_crop, max)
+
+rcl_threats_mat <- c(-Inf, threats_cutoff,0,
+                     threats_cutoff,threats_maxVal,1)
+
+threats_binary <- reclassify(threats_crop, rcl = rcl_threats_mat)
+
+binary_cols <- c("white","goldenrod")
+plot(threats_binary, col = binary_cols, legend = F, main = "Top 20% of Threats")
+map('world', fill = T, add = T, col = 'gray')
+
+```
+
+#Hotspots
+
+```{r}
+#use overlay in the Raster package
+hotspots <- overlay(spp_binary, threats_binary, fun =function(x,y){x + y})
+
+#break by color, need three colors
+brks_hotspots <- seq(0,3,length.out = 4)
+hotspot_cols <- c("white","lightblue","firebrick")
+
+#plot
+plot(hotspots, col = hotspot_cols, legend = F, main = "Hotspots")
+map('world', fill = T, add = T, col = 'gray80')
+
+```
+
+
+
+
+
+
+
+
+
 ####Notes from class 
 
 General 
@@ -113,16 +186,25 @@ Also can use "zoom function" to activate a locator, and clicking around will zoo
 
 Histogram
 Can find frequency of threats using "hist", will only use a subset of the cells since the raster is so huge
+-this will help later with reclassifying the data 
 Other stats using "cellstats"
 
 
 Raster Calculations:
 -need to overlay more data
 Steps:
--import new data (Species Richness)
--resample to the same resolution
--reclassify to find the top 20% for both 
--overlay 
+1. import new data (Species Richness)
+2. resample to the same extent resolution
+- use the "crop" and "resample"
+-crop is pretty straightforward, as you can tell it which layer to crop to
+-resample: what layer you are resampling, the one you want to sample it TO, plus the method, which specifies the mathematical way to calculate the new size
+-(ngb is nearest neighbor algorithm)
+-after, use stack to see if they layers line up: super useful 
+
+3. reclassify to find the top 20% for both 
+4. overlay 
+
+
 
 ####Notes from class 2 - Nelson typist
 
