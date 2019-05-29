@@ -1,0 +1,92 @@
+---
+title: "ourturn_shipping"
+author: "Madeline Berger"
+date: "5/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(raster)
+library(rgdal)
+library(rasterVis)
+library(maps)
+library(rgeos)
+library(tidyverse)
+library(RColorBrewer)
+
+# view some color palettes
+# display.brewer.all()
+# rainbow color scheme
+cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) 
+
+#setting smaller margins for plotting
+par(mar=c(2,2,1,1))
+
+
+```
+
+#Load the threat layers
+```{r}
+
+all_spp <- raster("ca_curr_sp_rich.tif")
+
+
+pollution <- raster("impact_pollution.tif")
+shipping <- raster("impact_shipping.tif")
+
+
+
+plot(pollution,col= cols)
+plot(shipping,col=cols)
+
+
+```
+
+
+#Exploring the rasters
+```{r}
+
+hist(pollution, main = "Cumulative Pollution Frequency")
+hist(shipping, main = "Cumulative Shipping Frequency")
+
+#stack
+
+ship_pol_stack <- stack(pollution, shipping)
+plot(ship_pol_stack, col = cols)
+
+```
+
+#Crop to prepare to combine with species data later 
+
+```{r}
+pollution_crop <- crop(pollution, all_spp)
+shipping_crop <- crop(shipping, all_spp)
+
+#resample species to match resolution
+spp_res <- resample(all_spp, pollution_crop, method = 'ngb', progress= 'text')
+
+spp_ship_threat_stack <- stack(spp_res, pollution_crop, shipping_crop)
+plot(spp_ship_threat_stack, col = cols)
+```
+
+#Reclassify zeros to NAs
+
+```{r}
+#Species
+spp_recl <- reclassify(spp_res, rcl = c(-Inf, 0, NA))
+
+#Shipping
+
+ship_rcl <- reclassify(shipping_crop, rcl = c(-Inf, 0, NA))
+hist(ship_rcl)
+
+#Pollution 
+pollution_rcl <- reclassify(pollution_crop, rcl = c(-Inf, 0, NA))
+hist(pollution_rcl)
+
+```
+
+#Reclassify to top quantiles 
+
+
