@@ -33,10 +33,10 @@ par(mar=c(2,2,1,1))
 ```{r}
 
 all_spp <- raster("ca_curr_sp_rich.tif")
-trash <- raster("impact_trash")
-pollution <- raster("impact_pollution")
-shipping <- raster("impact_shipping")
-pens <- raster("impact_pens")
+trash <- raster("impact_trash.tif")
+pollution <- raster("impact_pollution.tif")
+shipping <- raster("impact_shipping.tif")
+pens <- raster("impact_pens.tif")
 
 
 
