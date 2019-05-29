@@ -33,12 +33,20 @@ par(mar=c(2,2,1,1))
 ```{r}
 
 all_spp <- raster("ca_curr_sp_rich.tif")
+
 trash <- raster("impact_trash.tif")
 pollution <- raster("impact_pollution.tif")
 shipping <- raster("impact_shipping.tif")
 pens <- raster("impact_pens.tif")
+acid <- raster("impact_acid.tif")
 
 
+plot(trash,col=cols)
+plot(pollution,col= cols)
+plot(shipping,col=cols)
+plot(pens,col=cols)
+
+# We will select pollution and shipping as our threats
 
 
 ```
