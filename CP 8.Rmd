@@ -15,7 +15,7 @@ library(maps)
 library(rgeos)
 library(tidyverse)
 library(RColorBrewer)
-
+ 
 # view some color palettes
 # display.brewer.all()
 # rainbow color scheme
