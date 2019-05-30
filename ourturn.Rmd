@@ -34,22 +34,47 @@ par(mar=c(2,2,1,1))
 
 all_spp <- raster("ca_curr_sp_rich.tif")
 
-trash <- raster("impact_trash.tif")
-pollution <- raster("impact_pollution.tif")
-shipping <- raster("impact_shipping.tif")
-pens <- raster("impact_pens.tif")
 acid <- raster("impact_acid.tif")
+uv <- raster("impact_uv.tif")
+sst <- raster("impact_sst.tif")
 
-
-plot(trash,col=cols)
-plot(pollution,col= cols)
-plot(shipping,col=cols)
-plot(pens,col=cols)
+plot(acid,col=cols)
+plot(uv,col= cols)
+plot(sst,col=cols)
+plot(all_spp, col =cols)
 
 # We will select pollution and shipping as our threats
+
+acid_crop <- crop(acid,all_spp)
+uv_crop <- crop(uv, all_spp)
+sst_crop <- crop(sst,all_spp)
+
+spp_res <- resample(all_spp,acid_crop,method='ngb',progress='text')
+
+# Stacking to make sure all layers have same parameters
+
+spp_threat_stack <- stack(acid_crop,uv_crop,sst_crop,spp_res)
+plot(spp_threat_stack,col=cols)
+
+# Making 0's NA's for threats and species
+
+spp_res <- reclassify(spp_res,rcl=c(-Inf,0,NA))
+acid_crop <- reclassify(acid_crop,rcl=c(-Inf,0,NA))
+uv_crop <- reclassify(uv_crop,rcl=c(-Inf,0,NA))
+sst_crop <- mask(sst_crop,acid_crop)
+plot(sst_crop,col=cols)
+
+# Finding 80th percentiles and maximums to create 20% hotspot layers
+
+
 
 
 ```
 
+```{r}
+
+
+
+```
 
 
