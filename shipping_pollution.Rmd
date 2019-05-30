@@ -89,4 +89,53 @@ hist(pollution_rcl)
 
 #Reclassify to top quantiles 
 
+```{r}
+#Species
+#define the max value and the 0.8 quantile
+spp_cutoff <- quantile(spp_recl, 0.8)
+spp_maxVal <- cellStats(spp_recl,max)
+
+#build reclassification matrix
+rcl_mat <- c(-Inf, spp_cutoff,0,
+             spp_cutoff,spp_maxVal,1)
+
+#Reclassify the species layer 
+spp_binary <- reclassify(spp_res,rcl=rcl_mat)
+
+#Threats - Pollution 
+pol_cutoff <- quantile(pollution_rcl, 0.8)
+pol_maxVal <- cellStats(pollution_rcl,max)
+
+rcl_mat1 <- c(-Inf, pol_cutoff,0,
+             pol_cutoff,pol_maxVal,1)
+
+pol_binary <- reclassify(pollution_rcl, rcl=rcl_mat1 )
+
+binary_cols <- c("white", "tomato3")
+plot(pol_binary, col=binary_cols, legend = F, main = "Top 20% Pollution Threats")
+
+#Threats - shipping
+
+ship_cutoff <- quantile(ship_rcl, 0.8)
+ship_maxVal <- cellStats(ship_rcl,max)
+
+rcl_mat2 <- c(-Inf, ship_cutoff,0,
+             ship_cutoff,ship_maxVal,1)
+
+ship_binary <- reclassify(ship_rcl, rcl=rcl_mat2)
+
+binary_col_ship <- c("white", "aquamarine3")
+plot(ship_binary, col=binary_col_ship, legend = F, main = "Top 20% Shipping Threats")
+```
+
+#Overlay Threat Layers 
+
+```{r}
+
+pol_ship_combo <- overlay(pol_binary,ship_binary, fun = function(x,y){x+y})
+
+hotspots <- overlay(pol_ship_combo, spp_binary, fun = function(x,y){x+y})
+
+
+```
 
