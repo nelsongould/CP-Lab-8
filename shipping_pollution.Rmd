@@ -14,6 +14,7 @@ library(maps)
 library(rgeos)
 library(tidyverse)
 library(RColorBrewer)
+library(tmap)
 
 # view some color palettes
 # display.brewer.all()
@@ -135,30 +136,33 @@ plot(ship_binary, col=binary_col_ship, legend = F, main = "Top 20% Shipping Thre
 pol_ship_combo <- overlay(pol_binary,ship_binary, fun = function(x,y){x+y})
 
 hotspots_sp <- overlay(pol_ship_combo, spp_binary, fun = function(x,y){x+y})
+```
+
+```{r}
+#########################################
+#Graphs, full extent
+brks_ssp <- seq(0,3, length.out = 4)
+ssp_cols <- c("white","coral2","firebrick3")
+
+plot(pol_ship_combo, col = hotspots_sp_cols, legend = T, main  = "Top 20 Shipping and Pollution Threats")
+map('world', fill = T, add = T, col = 'gray80') #this isn't working 
 
 
-#Graphs, full extend
-brks_hotspotssp <- seq(0,3, length.out = 4)
-hotspots_sp_cols <- c("white","lightblue","firebrick3")
-
-plot(pol_ship_combo, col = hotspots_sp_cols, legend = F, main  = "Top 20 Shipping and Pollution Threats")
-map('world', fill = T, add = T) #this isn't working 
-
-
-
-plot(hotspots_sp, col = hotspots_sp_cols, legend = F, main  = "Hotspots Based on Shipping and Pollution Threats")
+brks_hotspotssp <- seq(0,4, length.out = 5)
+hotspot_cols <- c("white","goldenrod","coral2","firebrick")
+plot(hotspots_sp, col = hotspot_cols, legend = T, main  = "Hotspots Based on Shipping and Pollution Threats")
 map('world', fill = T, add = T) #this isn't working 
 
 
 #Graphs, zoomed in on a particular location 
 
 
-plot(pol_ship_combo, col = hotspots_sp_cols, ext = extent(-121,-117,32,35), legend = F, main  = "Top 20 Shipping and Pollution Threats")
+plot(pol_ship_combo, col = hotspots_sp_cols, ext = extent(-121,-117,32,35), legend = T, main  = "Top 20 Shipping and Pollution Threats")
 map('world', fill = T, add = T) #this isn't working 
 
 
 
-plot(hotspots_sp, col = hotspots_sp_cols, legend = F, main  = "Hotspots Based on Shipping and Pollution Threats")
+plot(hotspots_sp, col = hotspot_cols, ext = extent(-121,-117,32,35), legend = T, main  = "Hotspots Based on Shipping and Pollution Threats")
 map('world', fill = T, add = T) #this isn't working 
 
 
