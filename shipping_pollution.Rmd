@@ -144,8 +144,7 @@ hotspots_sp <- overlay(pol_ship_combo, spp_binary, fun = function(x,y){x+y})
 brks_ssp <- seq(0,3, length.out = 4)
 ssp_cols <- c("white","coral2","firebrick3")
 
-plot(pol_ship_combo, col = hotspots_sp_cols, legend = T, main  = "Top 20 Shipping and Pollution Threats")
-map('world', fill = T, add = T, col = 'gray80') #this isn't working 
+plot(pol_ship_combo, col = hotspots_sp_cols, legend = T, main  = "Top 20 Shipping and Pollution Threats");map('world', fill = T, add = T, col = 'gray80') #this isn't working 
 
 
 brks_hotspotssp <- seq(0,4, length.out = 5)
